@@ -9,7 +9,7 @@ import SettingsIcon from "@mui/icons-material/Settings";
 
 const StyledSidebar = styled.div`
   background-color: #f9f6ff;
-  width: 300px;
+  min-width: 300px;
   height: 100vh;
   position: sticky;
 
@@ -52,7 +52,7 @@ const StyledSidebar = styled.div`
   }
 `;
 
-const Sidebar = (props) => {
+const LeftSidebar = (props) => {
   return (
     <StyledSidebar>
       <div>
@@ -97,4 +97,4 @@ const Sidebar = (props) => {
   );
 };
 
-export default Sidebar;
+export default LeftSidebar;

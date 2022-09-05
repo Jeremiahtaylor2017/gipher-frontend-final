@@ -1,15 +1,25 @@
+import CreatePost from "./CreatePost";
+import Post from "./Post";
+
 import styled from "styled-components";
 
-const StyledTimeline = styled.div`
+const StyledTimline = styled.div`
+  display: flex;
+  flex-direction: column;
   width: 100%;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 30px;
+  overflow: auto;
 `;
 
 const Timeline = (props) => {
   return (
     <>
-      <StyledTimeline>
-        <h1>Timeline</h1>
-      </StyledTimeline>
+      <StyledTimline>
+        <CreatePost />
+        <Post />
+      </StyledTimline>
     </>
   );
 };

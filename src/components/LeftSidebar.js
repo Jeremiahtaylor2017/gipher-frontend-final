@@ -18,7 +18,7 @@ const StyledSidebar = styled.div`
     padding-top: 20px;
     padding-left: 30px;
     margin-bottom: 30px;
-    font-size: 20px;
+    font-size: 28px;
   }
 
   div {

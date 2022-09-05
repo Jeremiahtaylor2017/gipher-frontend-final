@@ -1,10 +1,10 @@
 import styled from "styled-components";
 
-const StyledProfilInfo = styled.div`
+const StyledProfileInfo = styled.div`
   div:first-child {
     display: flex;
     flex-direction: row;
-    padding-left: 30px;
+    /* padding-left: 30px; */
 
     img {
       height: 100px;
@@ -33,7 +33,7 @@ const StyledProfilInfo = styled.div`
 
 const ProfileInfo = (props) => {
   return (
-    <StyledProfilInfo>
+    <StyledProfileInfo>
       <div>
         <img src="https://i.imgur.com/WmRUduL.jpeg" alt="Jeremiah Taylor" />
         <div>
@@ -41,7 +41,7 @@ const ProfileInfo = (props) => {
           <p>@jeremiahtaylor</p>
         </div>
       </div>
-    </StyledProfilInfo>
+    </StyledProfileInfo>
   );
 };
 

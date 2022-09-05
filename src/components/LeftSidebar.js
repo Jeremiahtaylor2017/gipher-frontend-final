@@ -21,6 +21,10 @@ const StyledSidebar = styled.div`
     font-size: 28px;
   }
 
+  .profileInfo {
+    padding-left: 30px;
+  }
+
   div {
     ul {
       list-style: none;
@@ -57,7 +61,9 @@ const LeftSidebar = (props) => {
     <StyledSidebar>
       <div>
         <h1>Gipher</h1>
-        <ProfileInfo />
+        <div className="profileInfo">
+          <ProfileInfo />
+        </div>
         <div>
           <ul>
             <li>

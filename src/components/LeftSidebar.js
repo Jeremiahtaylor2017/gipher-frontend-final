@@ -1,17 +1,18 @@
 import ProfileInfo from "./ProfileInfo";
 
 import styled from "styled-components";
-import HomeIcon from "@mui/icons-material/Home";
-import NotificationsIcon from "@mui/icons-material/Notifications";
-import ChatIcon from "@mui/icons-material/Chat";
-import BookmarkIcon from "@mui/icons-material/Bookmark";
-import SettingsIcon from "@mui/icons-material/Settings";
+import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
+import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
+import ChatOutlinedIcon from "@mui/icons-material/ChatOutlined";
+import BookmarkBorderOutlinedIcon from "@mui/icons-material/BookmarkBorderOutlined";
+import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 
 const StyledSidebar = styled.div`
   background-color: #f9f6ff;
   min-width: 300px;
   height: 100vh;
   position: sticky;
+  top: 0;
 
   h1 {
     color: #5833c3;
@@ -68,31 +69,31 @@ const LeftSidebar = (props) => {
           <ul>
             <li>
               <div>
-                <HomeIcon />
+                <HomeOutlinedIcon />
                 Home
               </div>
             </li>
             <li>
               <div>
-                <NotificationsIcon />
+                <NotificationsOutlinedIcon />
                 Notifications
               </div>
             </li>
             <li>
               <div>
-                <ChatIcon />
+                <ChatOutlinedIcon />
                 Messages
               </div>
             </li>
             <li>
               <div>
-                <BookmarkIcon />
+                <BookmarkBorderOutlinedIcon />
                 Saved
               </div>
             </li>
             <li>
               <div>
-                <SettingsIcon />
+                <SettingsOutlinedIcon />
                 Settings
               </div>
             </li>

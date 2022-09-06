@@ -1,13 +1,15 @@
-import { Users } from "../dummyData";
+import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import axios from "axios";
+import { format } from "timeago.js";
 
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import styled from "styled-components";
-import { useState } from "react";
 
 const StyledPost = styled.div`
 	margin-top: 30px;
 
-	div {
+	.wrapper {
 		display: flex;
 		flex-direction: row;
 
@@ -95,38 +97,49 @@ const StyledPost = styled.div`
 `;
 
 const Post = ({ post }) => {
-	const [likes, setLikes] = useState(post.likes);
+	const [likes, setLikes] = useState(post.likes.length);
 	const [isLiked, setIsLiked] = useState(false);
+	const [user, setUser] = useState({});
 
 	const likeHandler = () => {
 		setLikes(isLiked ? likes - 1 : likes + 1);
 		setIsLiked(!isLiked);
 	};
 
+	useEffect(() => {
+		const fetchUser = async () => {
+			const userURL = `http://localhost:3001/api/users?userId=${post.userId}`;
+			const res = await axios.get(userURL);
+			setUser(res.data);
+		};
+		fetchUser();
+	}, [post.userId]);
+
 	return (
 		<>
 			<StyledPost>
-				<div>
-					<img
-						className="profilePicture"
-						src={Users.filter((u) => u.id === post.userId)[0].profilePicture}
-						alt="The Rock"
-					/>
+				<div className="wrapper">
+					<Link to={`profile/${user.username}`}>
+						<img
+							className="profilePicture"
+							src={
+								user.profilePicture ||
+								"https://thumbs.dreamstime.com/b/default-avatar-profile-icon-vector-social-media-user-portrait-176256935.jpg"
+							}
+							alt="The Rock"
+						/>
+					</Link>
 					<div className="container">
 						<div>
-							<p className="name">
-								{Users.filter((u) => u.id === post.userId)[0].name}
-							</p>
-							<p className="username">
-								{Users.filter((u) => u.id === post.userId)[0].username}
-							</p>
-							<p className="time">&#183; {post.date}</p>
+							<p className="name">{user.name}</p>
+							<p className="username">@{user.username}</p>
+							<p className="time">&#183; {format(post.createdAt)}</p>
 						</div>
 						<div>
 							<p>{post?.desc}</p>
 						</div>
 						<div className="gif">
-							<img src={post?.photo} alt="Smell that?" />
+							<img src={post.img} alt="Smell that?" />
 						</div>
 						<div className="interactions">
 							<FavoriteBorderOutlinedIcon

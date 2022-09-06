@@ -1,7 +1,8 @@
+import { useEffect, useState } from "react";
+import axios from "axios";
+
 import CreatePost from "./CreatePost";
 import Post from "./Post";
-
-import { Posts } from "../dummyData";
 
 import styled from "styled-components";
 
@@ -16,13 +17,26 @@ const StyledTimline = styled.div`
 	overflow: auto;
 `;
 
-const Timeline = (props) => {
+const Timeline = ({ username }) => {
+	const [posts, setPosts] = useState([]);
+
+	useEffect(() => {
+		const fetchPosts = async () => {
+			const timelineURL = username
+				? `http://localhost:3001/api/post/profile/${username}`
+				: `http://localhost:3001/api/post/timeline/6313803782f8003244316c30`;
+			const res = await axios.get(timelineURL);
+			setPosts(res.data);
+		};
+		fetchPosts();
+	}, [username]);
+
 	return (
 		<>
 			<StyledTimline>
 				<CreatePost />
-				{Posts.map((p) => (
-					<Post key={p.id} post={p} />
+				{posts.map((p) => (
+					<Post key={p._id} post={p} />
 				))}
 			</StyledTimline>
 		</>

@@ -1,3 +1,7 @@
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import axios from "axios";
+
 import LeftSidebar from "../components/LeftSidebar";
 import Timeline from "../components/Timeline";
 import RightSidebar from "../components/RightSidebar";
@@ -15,7 +19,6 @@ const StyledProfilePage = styled.div`
 		overflow: auto;
 		.container {
 			div:first-child {
-				padding-left: 20px;
 				color: #5b5b5b;
 
 				h3 {
@@ -74,10 +77,13 @@ const StyledProfilePage = styled.div`
 					padding-left: 20px;
 					height: 50px;
 					margin-top: 10px;
+					display: flex;
+					align-items: center;
 
 					h3 {
 						color: #5b5b5b;
 						font-weight: bold;
+						margin-right: 10px;
 					}
 
 					p {
@@ -118,6 +124,18 @@ const StyledProfilePage = styled.div`
 `;
 
 const Profile = (props) => {
+	const [user, setUser] = useState({});
+	const username = useParams().username;
+
+	useEffect(() => {
+		const fetchUser = async () => {
+			const userURL = `http://localhost:3001/api/users?username=${username}`;
+			const res = await axios.get(userURL);
+			setUser(res.data);
+		};
+		fetchUser();
+	}, [username]);
+
 	return (
 		<>
 			<StyledProfilePage>
@@ -130,22 +148,28 @@ const Profile = (props) => {
 						</div>
 						<div className="images">
 							<img
-								src="https://pbs.twimg.com/profile_banners/1201591719336087552/1578508442/1500x500"
+								src={
+									user.coverPicture ||
+									"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRpCpXpQb1Cs0Cpn0BrQb6VIb8-zxtV1B_H-LhOIE-U&s"
+								}
 								alt=""
 							/>
 							<img
-								src="https://pbs.twimg.com/profile_images/1233508087669100544/Dy9xUml6_400x400.jpg"
+								src={
+									user.profilePicture ||
+									"https://thumbs.dreamstime.com/b/default-avatar-profile-icon-vector-social-media-user-portrait-176256935.jpg"
+								}
 								alt=""
 							/>
 						</div>
 						<div className="infoContainer">
 							<button>Edit Profile</button>
 							<div className="user">
-								<h3>JT</h3>
-								<p>@tvnnelvision</p>
+								<h3>{user.name}</h3>
+								<p>@{user.username}</p>
 							</div>
 							<div className="info">
-								<p>twitch.tv</p>
+								<p>{user.bio}</p>
 								<p>Joined September 2022</p>
 							</div>
 							<div className="following">
@@ -154,7 +178,7 @@ const Profile = (props) => {
 							</div>
 						</div>
 					</div>
-					<Timeline />
+					<Timeline username={username} />
 				</div>
 				<RightSidebar />
 			</StyledProfilePage>

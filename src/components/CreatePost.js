@@ -8,11 +8,6 @@ const StyledCreatePost = styled.div`
 		color: #5833c3;
 	}
 
-	h3 {
-		color: #5833c3;
-		margin-bottom: 20px;
-	}
-
 	div {
 		display: flex;
 		flex-direction: row;

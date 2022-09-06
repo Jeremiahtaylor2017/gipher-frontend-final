@@ -13,7 +13,7 @@ const StyledCreatePost = styled.div`
 		margin-bottom: 20px;
 	}
 
-	div:nth-child(2) {
+	div {
 		display: flex;
 		flex-direction: row;
 		width: 100%;
@@ -124,9 +124,9 @@ const CreatePost = (props) => {
 	return (
 		<>
 			<StyledCreatePost>
-				<div>
+				{/* <div>
 					<h3>HOME</h3>
-				</div>
+				</div> */}
 				<div>
 					<img src="https://i.imgur.com/WmRUduL.jpeg" alt="Jeremiah Taylor" />
 					<div>

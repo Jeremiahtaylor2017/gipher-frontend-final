@@ -1,5 +1,8 @@
+import { Users } from "../dummyData";
+
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import styled from "styled-components";
+import { useState } from "react";
 
 const StyledPost = styled.div`
 	margin-top: 30px;
@@ -45,6 +48,13 @@ const StyledPost = styled.div`
 					padding-top: 15px;
 					color: #a8a8a8;
 				}
+
+				.time {
+					font-size: 10px;
+					padding-top: 15px;
+					color: #a8a8a8;
+					margin-left: 5px;
+				}
 			}
 
 			div {
@@ -84,33 +94,46 @@ const StyledPost = styled.div`
 	}
 `;
 
-const Post = (props) => {
+const Post = ({ post }) => {
+	const [likes, setLikes] = useState(post.likes);
+	const [isLiked, setIsLiked] = useState(false);
+
+	const likeHandler = () => {
+		setLikes(isLiked ? likes - 1 : likes + 1);
+		setIsLiked(!isLiked);
+	};
+
 	return (
 		<>
 			<StyledPost>
 				<div>
 					<img
 						className="profilePicture"
-						src="https://www.seekpng.com/png/full/101-1011748_dwayne-the-rock-johnson-headshot.png"
+						src={Users.filter((u) => u.id === post.userId)[0].profilePicture}
 						alt="The Rock"
 					/>
 					<div className="container">
 						<div>
-							<p className="name">Dwayne "The Rock" Johnson</p>
-							<p className="username">@therock</p>
+							<p className="name">
+								{Users.filter((u) => u.id === post.userId)[0].name}
+							</p>
+							<p className="username">
+								{Users.filter((u) => u.id === post.userId)[0].username}
+							</p>
+							<p className="time">&#183; {post.date}</p>
 						</div>
 						<div>
-							<p>Ya'll smell that?</p>
+							<p>{post?.desc}</p>
 						</div>
 						<div className="gif">
-							<img
-								src="https://www.thesun.co.uk/wp-content/uploads/2022/01/the-rock.jpg"
-								alt="Smell that?"
-							/>
+							<img src={post?.photo} alt="Smell that?" />
 						</div>
 						<div className="interactions">
-							<FavoriteBorderOutlinedIcon className="like" />
-							<span>32</span>
+							<FavoriteBorderOutlinedIcon
+								onClick={likeHandler}
+								className="like"
+							/>
+							<span>{likes}</span>
 						</div>
 					</div>
 				</div>

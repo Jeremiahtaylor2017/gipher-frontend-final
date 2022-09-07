@@ -1,5 +1,5 @@
-// import { useState, useEffect } from "react";
-// import axios from "axios";
+import { useState, useEffect } from "react";
+import axios from "axios";
 
 import ProfileInfo from "./ProfileInfo";
 
@@ -32,40 +32,25 @@ const StyledSuggested = styled.div`
 `;
 
 const Suggested = (props) => {
-	// const [users, setUsers] = useState([]);
+	const [suggested, setSuggested] = useState([]);
 
-	// useEffect(() => {
-	// 	const fetchSuggested = async () => {
-	// 		const suggested = axios.get("http://localhost:3001/api/users/suggested");
-	// 		setUsers(suggested);
-	// 	};
-	// 	fetchSuggested();
-	// }, []);
+	useEffect(() => {
+		const fetchSuggested = async () => {
+			const res = await axios.get("http://localhost:3001/api/users/suggested");
+			setSuggested(res.data);
+		};
+		fetchSuggested();
+	}, []);
 
 	return (
 		<>
 			<StyledSuggested>
 				<h3>Suggested</h3>
-				{/* 
-				{users.map((u) => (
-					<div key={u._id}>
-						<img src={u.profilePicture} alt="" />
-						<p>{u.name}</p>
-						<p>@{u.username}</p>
+				{suggested.map((s) => (
+					<div key={s._id} className="profileInfo">
+						<ProfileInfo suggested={s} />
 					</div>
-				))} */}
-				<div className="profileInfo">
-					<ProfileInfo />
-				</div>
-				<div className="profileInfo">
-					<ProfileInfo />
-				</div>
-				<div className="profileInfo">
-					<ProfileInfo />
-				</div>
-				<div className="profileInfo">
-					<ProfileInfo />
-				</div>
+				))}
 			</StyledSuggested>
 		</>
 	);

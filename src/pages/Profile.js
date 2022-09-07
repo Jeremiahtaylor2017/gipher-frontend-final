@@ -169,7 +169,7 @@ const Profile = (props) => {
 								<p>@{user.username}</p>
 							</div>
 							<div className="info">
-								<p>{user.bio}</p>
+								<p>{user.bio ? user.bio : "No bio yet"}</p>
 								<p>Joined September 2022</p>
 							</div>
 							<div className="following">

@@ -119,6 +119,11 @@ const StyledCreatePost = styled.div`
 					}
 				}
 			}
+			.carousel {
+				img:hover {
+					border: 2px solid #5833c3;
+				}
+			}
 		}
 	}
 `;
@@ -127,8 +132,9 @@ const giphyFetch = new GiphyFetch(process.env.REACT_APP_GIPHY_API_KEY);
 
 const CreatePost = (props) => {
 	const { user } = useContext(AuthContext);
-	const status = useRef();
+	const desc = useRef();
 	const [keyword, setKeyword] = useState("");
+	const [giphy, setGiphy] = useState("");
 
 	const fetchGifs = (offset) => {
 		return giphyFetch.search(keyword, { offset, limit: 10 });
@@ -140,19 +146,26 @@ const CreatePost = (props) => {
 
 	const handleClick = (e) => {
 		e.preventDefault();
-		console.log(e.target.src);
+		setGiphy(e.target.src);
 	};
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		const newPost = {
 			userId: user._id,
-			status: status.current.value,
+			desc: desc.current.value,
 		};
+
+		if (giphy) {
+			newPost.img = giphy;
+		}
 
 		try {
 			await axios.post("http://localhost:3001/api/post", newPost);
-		} catch (error) {}
+			window.location.reload();
+		} catch (error) {
+			console.log(error);
+		}
 	};
 
 	return (
@@ -172,8 +185,8 @@ const CreatePost = (props) => {
 						<form onSubmit={handleSubmit}>
 							<label>
 								<textarea
-									ref={status}
-									name="status"
+									ref={desc}
+									name="desc"
 									placeholder="What's new?"
 								></textarea>
 								<div className="separator"></div>

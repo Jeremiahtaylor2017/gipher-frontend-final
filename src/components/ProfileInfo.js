@@ -35,29 +35,50 @@ const StyledProfileInfo = styled.div`
 	}
 `;
 
-const ProfileInfo = (props) => {
+const ProfileInfo = ({ suggested }) => {
 	const { user } = useContext(AuthContext);
 
-	return (
-		<StyledProfileInfo>
-			<div>
-				<Link to={`/profile/${user.username}`}>
-					<img
-						src={
-							user.profilePicture
-								? user.profilePicture
-								: "https://thumbs.dreamstime.com/b/default-avatar-profile-icon-vector-social-media-user-portrait-176256935.jpg"
-						}
-						alt="Jeremiah Taylor"
-					/>
-				</Link>
-				<div className="userInfo">
-					<p>{user.name}</p>
-					<p>@{user.username}</p>
+	if (suggested) {
+		return (
+			<StyledProfileInfo>
+				<div>
+					<Link to={`/profile/${suggested.username}`}>
+						<img
+							src={
+								suggested.profilePicture ||
+								"https://thumbs.dreamstime.com/b/default-avatar-profile-icon-vector-social-media-user-portrait-176256935.jpg"
+							}
+							alt=""
+						/>
+					</Link>
+					<div className="userInfo">
+						<p>{suggested.name}</p>
+						<p>@{suggested.username}</p>
+					</div>
 				</div>
-			</div>
-		</StyledProfileInfo>
-	);
+			</StyledProfileInfo>
+		);
+	} else {
+		return (
+			<StyledProfileInfo>
+				<div>
+					<Link to={`/profile/${user.username}`}>
+						<img
+							src={
+								user.profilePicture ||
+								"https://thumbs.dreamstime.com/b/default-avatar-profile-icon-vector-social-media-user-portrait-176256935.jpg"
+							}
+							alt="Jeremiah Taylor"
+						/>
+					</Link>
+					<div className="userInfo">
+						<p>{user.name}</p>
+						<p>@{user.username}</p>
+					</div>
+				</div>
+			</StyledProfileInfo>
+		);
+	}
 };
 
 export default ProfileInfo;

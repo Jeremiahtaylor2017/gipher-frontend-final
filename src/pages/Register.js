@@ -1,3 +1,7 @@
+import { useRef } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+
 import styled from "styled-components";
 
 const StyledRegisterPage = styled.div`
@@ -32,7 +36,7 @@ const StyledRegisterPage = styled.div`
 			}
 
 			.login {
-				height: 400px;
+				height: 450px;
 				padding: 20px;
 				border-radius: 10px;
 				display: flex;
@@ -72,6 +76,33 @@ const StyledRegisterPage = styled.div`
 `;
 
 const Register = (props) => {
+	const email = useRef();
+	const name = useRef();
+	const username = useRef();
+	const password = useRef();
+	const reEnterPassword = useRef();
+	const navigate = useNavigate();
+
+	const handleClick = async (e) => {
+		e.preventDefault();
+		if (reEnterPassword.current.value !== password.current.value) {
+			password.current.setCustomValidity("Passwords don't match");
+		} else {
+			const user = {
+				email: email.current.value,
+				name: name.current.value,
+				username: username.current.value,
+				password: password.current.value,
+			};
+			try {
+				await axios.post("http://localhost:3001/api/auth/register", user);
+				navigate("/login");
+			} catch (error) {
+				console.log(error);
+			}
+		}
+	};
+
 	return (
 		<StyledRegisterPage>
 			<div>
@@ -82,14 +113,27 @@ const Register = (props) => {
 				<div className="container">
 					<h1 className="express">Express Freely</h1>
 					<h3 className="join">Join Gipher today.</h3>
-					<div className="login">
-						<input placeholder="Email" />
-						<input placeholder="Username" />
-						<input placeholder="Password" />
-						<input placeholder="Re-enter Password" />
-						<button>Register</button>
+					<form onSubmit={handleClick} className="login">
+						<input ref={email} type="email" required placeholder="Email" />
+						<input ref={name} required placeholder="Name" />
+						<input ref={username} required placeholder="Username" />
+						<input
+							ref={password}
+							type="password"
+							required
+							placeholder="Password"
+							minLength="6"
+						/>
+						<input
+							ref={reEnterPassword}
+							type="password"
+							required
+							placeholder="Re-enter Password"
+							minLength="6"
+						/>
+						<button type="submit">Register</button>
 						<button className="register">Log In</button>
-					</div>
+					</form>
 				</div>
 			</div>
 		</StyledRegisterPage>

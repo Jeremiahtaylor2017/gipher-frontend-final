@@ -12,7 +12,7 @@ const StyledHomePage = styled.div`
 		display: flex;
 		flex-direction: column;
 
-		h3 {
+		.home {
 			color: #5833c3;
 			margin-top: 30px;
 			margin-left: 20px;
@@ -26,7 +26,7 @@ const Home = (props) => {
 			<StyledHomePage>
 				<LeftSidebar />
 				<div>
-					<h3>HOME</h3>
+					<h3 className="home">HOME</h3>
 					<Timeline />
 				</div>
 				<RightSidebar />

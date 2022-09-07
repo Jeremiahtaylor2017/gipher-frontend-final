@@ -8,7 +8,7 @@ const StyledCreatePost = styled.div`
 		color: #5833c3;
 	}
 
-	div {
+	.container {
 		display: flex;
 		flex-direction: row;
 		width: 100%;
@@ -119,10 +119,7 @@ const CreatePost = (props) => {
 	return (
 		<>
 			<StyledCreatePost>
-				{/* <div>
-					<h3>HOME</h3>
-				</div> */}
-				<div>
+				<div className="container">
 					<img src="https://i.imgur.com/WmRUduL.jpeg" alt="Jeremiah Taylor" />
 					<div>
 						<form>

@@ -17,6 +17,15 @@ const StyledSuggested = styled.div`
 		margin-bottom: 10px;
 		margin-top: 10px;
 	}
+
+	.profileInfo {
+		margin-bottom: 10px;
+
+		img {
+			height: 50px !important;
+			width: 50px !important;
+		}
+	}
 `;
 
 const Suggested = (props) => {
@@ -24,10 +33,18 @@ const Suggested = (props) => {
 		<>
 			<StyledSuggested>
 				<h3>Suggested</h3>
-				<ProfileInfo />
-				<ProfileInfo />
-				<ProfileInfo />
-				<ProfileInfo />
+				<div className="profileInfo">
+					<ProfileInfo />
+				</div>
+				<div className="profileInfo">
+					<ProfileInfo />
+				</div>
+				<div className="profileInfo">
+					<ProfileInfo />
+				</div>
+				<div className="profileInfo">
+					<ProfileInfo />
+				</div>
 			</StyledSuggested>
 		</>
 	);

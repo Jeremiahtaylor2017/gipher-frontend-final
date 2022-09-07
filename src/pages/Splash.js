@@ -1,3 +1,8 @@
+import { useContext, useRef } from "react";
+
+import { loginCall } from "../apiCalls";
+import { AuthContext } from "../context/AuthContext";
+
 import styled from "styled-components";
 
 const StyledSplashPage = styled.div`
@@ -62,6 +67,9 @@ const StyledSplashPage = styled.div`
 					width: 100%;
 					cursor: pointer;
 				}
+				button:disabled {
+					cursor: not-allowed;
+				}
 
 				.register {
 					width: 60%;
@@ -76,6 +84,20 @@ const StyledSplashPage = styled.div`
 `;
 
 const Splash = (props) => {
+	const email = useRef();
+	const password = useRef();
+	const { user, isFetching, error, dispatch } = useContext(AuthContext);
+
+	const handleClick = (e) => {
+		e.preventDefault();
+		loginCall(
+			{ email: email.current.value, password: password.current.value },
+			dispatch
+		);
+	};
+
+	console.log(user);
+
 	return (
 		<StyledSplashPage>
 			<div>
@@ -86,13 +108,21 @@ const Splash = (props) => {
 				<div className="container">
 					<h1 className="express">Express Freely</h1>
 					<h3 className="join">Join Gipher today.</h3>
-					<div className="login">
-						<input placeholder="Email" />
-						<input placeholder="Password" />
-						<button>Login In</button>
+					<form onSubmit={handleClick} className="login">
+						<input type="email" ref={email} placeholder="Email" required />
+						<input
+							type="password"
+							ref={password}
+							placeholder="Password"
+							minLength="6"
+							required
+						/>
+						<button disabled={isFetching}>
+							{isFetching ? "Loading..." : "Login"}
+						</button>
 						<span>Forgot Password?</span>
 						<button className="register">Create New Account</button>
-					</div>
+					</form>
 				</div>
 			</div>
 		</StyledSplashPage>

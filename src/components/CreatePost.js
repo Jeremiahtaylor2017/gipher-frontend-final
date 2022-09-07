@@ -1,3 +1,7 @@
+import { useContext, useRef, useState } from "react";
+import { AuthContext } from "../context/AuthContext";
+import axios from "axios";
+
 import PermMediaOutlinedIcon from "@mui/icons-material/PermMediaOutlined";
 import styled from "styled-components";
 
@@ -26,7 +30,7 @@ const StyledCreatePost = styled.div`
 			border: 1px solid #eee8ff;
 			box-shadow: 0px 0px 5px 5px #fbfaff;
 			border-radius: 5px;
-			width: 100%;
+			width: 450px;
 
 			label {
 				display: flex;
@@ -53,7 +57,7 @@ const StyledCreatePost = styled.div`
 					margin-bottom: 20px;
 				}
 
-				div {
+				.lowerContainer {
 					width: 90%;
 					display: flex;
 					flex-direction: row;
@@ -77,12 +81,12 @@ const StyledCreatePost = styled.div`
 						display: none;
 					}
 
-					.media {
+					/* .media {
 						display: flex;
 						flex-direction: row;
 						align-items: center;
 						margin: 0;
-						padding-left: 25px;
+						padding-left: 15px;
 						justify-content: flex-start;
 						font-size: 14px;
 						cursor: pointer;
@@ -94,8 +98,10 @@ const StyledCreatePost = styled.div`
 
 						.mediaIcon {
 							color: #5833c3;
+							margin-left: -30px;
+							margin-right: 30px;
 						}
-					}
+					} */
 
 					.post {
 						font-family: inherit;
@@ -116,24 +122,60 @@ const StyledCreatePost = styled.div`
 `;
 
 const CreatePost = (props) => {
+	const { user } = useContext(AuthContext);
+	const status = useRef();
+
+	const handleSubmit = async (e) => {
+		e.preventDefault();
+		const newPost = {
+			userId: user._id,
+			status: status.current.value,
+		};
+
+		try {
+			await axios.post("http://localhost:3001/api/post", newPost);
+		} catch (error) {}
+	};
+
 	return (
 		<>
 			<StyledCreatePost>
 				<div className="container">
-					<img src="https://i.imgur.com/WmRUduL.jpeg" alt="Jeremiah Taylor" />
+					<img
+						src={
+							user.profilePicture
+								? user.profilePicture
+								: "https://thumbs.dreamstime.com/b/default-avatar-profile-icon-vector-social-media-user-portrait-176256935.jpg"
+						}
+						alt=""
+					/>
 					<div>
-						<form>
+						<form onSubmit={handleSubmit}>
 							<label>
-								<textarea name="status" placeholder="What's new?"></textarea>
+								<textarea
+									ref={status}
+									name="status"
+									placeholder="What's new?"
+								></textarea>
 								<div className="separator"></div>
-								<div>
+								<div className="lowerContainer">
 									<input placeholder="Search Giphy's" />
 									<button className="search">Search</button>
-									<div className="media">
+									{/* <label htmlFor="file" className="media">
 										<span>Photo or Video</span>
 										<PermMediaOutlinedIcon className="mediaIcon" />
-									</div>
-									<button className="post">Post</button>
+										<input
+											onChange={handleFile}
+											style={{ display: "none" }}
+											type="file"
+											name="file"
+											id="file"
+											accept=".png, .jpeg, .jpg, .mp4"
+										/>
+									</label> */}
+									<button type="submit" className="post">
+										Post
+									</button>
 								</div>
 							</label>
 						</form>

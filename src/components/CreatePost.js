@@ -2,7 +2,9 @@ import { useContext, useRef, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 import axios from "axios";
 
-import PermMediaOutlinedIcon from "@mui/icons-material/PermMediaOutlined";
+import { GiphyFetch } from "@giphy/js-fetch-api";
+import { Carousel } from "@giphy/react-components";
+
 import styled from "styled-components";
 
 const StyledCreatePost = styled.div`
@@ -17,7 +19,7 @@ const StyledCreatePost = styled.div`
 		flex-direction: row;
 		width: 100%;
 
-		img {
+		.profilePicture {
 			align-self: flex-start;
 			margin-bottom: 20px;
 			margin-right: 10px;
@@ -121,9 +123,25 @@ const StyledCreatePost = styled.div`
 	}
 `;
 
+const giphyFetch = new GiphyFetch(process.env.REACT_APP_GIPHY_API_KEY);
+
 const CreatePost = (props) => {
 	const { user } = useContext(AuthContext);
 	const status = useRef();
+	const [keyword, setKeyword] = useState("");
+
+	const fetchGifs = (offset) => {
+		return giphyFetch.search(keyword, { offset, limit: 10 });
+	};
+
+	const handleChange = (e) => {
+		setKeyword(e.target.value);
+	};
+
+	const handleClick = (e) => {
+		e.preventDefault();
+		console.log(e.target.src);
+	};
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
@@ -142,6 +160,7 @@ const CreatePost = (props) => {
 			<StyledCreatePost>
 				<div className="container">
 					<img
+						className="profilePicture"
 						src={
 							user.profilePicture
 								? user.profilePicture
@@ -159,7 +178,7 @@ const CreatePost = (props) => {
 								></textarea>
 								<div className="separator"></div>
 								<div className="lowerContainer">
-									<input placeholder="Search Giphy's" />
+									<input placeholder="Search Giphy's" onChange={handleChange} />
 									<button className="search">Search</button>
 									{/* <label htmlFor="file" className="media">
 										<span>Photo or Video</span>
@@ -178,6 +197,14 @@ const CreatePost = (props) => {
 									</button>
 								</div>
 							</label>
+							<div onClick={handleClick} className="carousel">
+								<Carousel
+									key={keyword}
+									fetchGifs={fetchGifs}
+									gifHeight={200}
+									gutter={6}
+								/>
+							</div>
 						</form>
 					</div>
 				</div>

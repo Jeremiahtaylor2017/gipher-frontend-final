@@ -96,8 +96,6 @@ const Splash = (props) => {
 		);
 	};
 
-	console.log(user);
-
 	return (
 		<StyledSplashPage>
 			<div>

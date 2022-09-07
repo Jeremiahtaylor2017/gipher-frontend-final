@@ -1,3 +1,6 @@
+// import { useState, useEffect } from "react";
+// import axios from "axios";
+
 import ProfileInfo from "./ProfileInfo";
 
 import styled from "styled-components";
@@ -29,10 +32,28 @@ const StyledSuggested = styled.div`
 `;
 
 const Suggested = (props) => {
+	// const [users, setUsers] = useState([]);
+
+	// useEffect(() => {
+	// 	const fetchSuggested = async () => {
+	// 		const suggested = axios.get("http://localhost:3001/api/users/suggested");
+	// 		setUsers(suggested);
+	// 	};
+	// 	fetchSuggested();
+	// }, []);
+
 	return (
 		<>
 			<StyledSuggested>
 				<h3>Suggested</h3>
+				{/* 
+				{users.map((u) => (
+					<div key={u._id}>
+						<img src={u.profilePicture} alt="" />
+						<p>{u.name}</p>
+						<p>@{u.username}</p>
+					</div>
+				))} */}
 				<div className="profileInfo">
 					<ProfileInfo />
 				</div>

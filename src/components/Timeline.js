@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import axios from "axios";
+import { AuthContext } from "../context/AuthContext";
 
 import CreatePost from "./CreatePost";
 import Post from "./Post";
@@ -19,17 +20,19 @@ const StyledTimline = styled.div`
 
 const Timeline = ({ username }) => {
 	const [posts, setPosts] = useState([]);
+	const { user } = useContext(AuthContext);
 
 	useEffect(() => {
 		const fetchPosts = async () => {
-			const timelineURL = username
-				? `http://localhost:3001/api/post/profile/${username}`
-				: `http://localhost:3001/api/post/timeline/6313803782f8003244316c30`;
-			const res = await axios.get(timelineURL);
+			const res = username
+				? await axios.get(`http://localhost:3001/api/post/profile/${username}`)
+				: await axios.get(
+						`http://localhost:3001/api/post/timeline/${user._id}`
+				  );
 			setPosts(res.data);
 		};
 		fetchPosts();
-	}, [username]);
+	}, [username, user._id]);
 
 	return (
 		<>

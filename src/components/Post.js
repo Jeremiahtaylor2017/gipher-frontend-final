@@ -1,10 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { format } from "timeago.js";
 
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import styled from "styled-components";
+import { AuthContext } from "../context/AuthContext";
 
 const StyledPost = styled.div`
 	margin-top: 30px;
@@ -100,11 +101,21 @@ const Post = ({ post }) => {
 	const [likes, setLikes] = useState(post.likes.length);
 	const [isLiked, setIsLiked] = useState(false);
 	const [user, setUser] = useState({});
+	const { user: currentUser } = useContext(AuthContext);
 
 	const likeHandler = () => {
+		try {
+			axios.put(`http://localhost:3001/api/post/${post._id}/like`, {
+				userId: currentUser._id,
+			});
+		} catch (error) {}
 		setLikes(isLiked ? likes - 1 : likes + 1);
 		setIsLiked(!isLiked);
 	};
+
+	useEffect(() => {
+		setIsLiked(post.likes.includes(currentUser._id));
+	}, [currentUser._id, post.likes]);
 
 	useEffect(() => {
 		const fetchUser = async () => {
@@ -123,8 +134,9 @@ const Post = ({ post }) => {
 						<img
 							className="profilePicture"
 							src={
-								user.profilePicture ||
-								"https://thumbs.dreamstime.com/b/default-avatar-profile-icon-vector-social-media-user-portrait-176256935.jpg"
+								user.profilePicture
+									? user.profilePicture
+									: "https://thumbs.dreamstime.com/b/default-avatar-profile-icon-vector-social-media-user-portrait-176256935.jpg"
 							}
 							alt="The Rock"
 						/>

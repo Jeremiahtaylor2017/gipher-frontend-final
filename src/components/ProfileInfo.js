@@ -1,4 +1,5 @@
 import { useContext } from "react";
+import { Link } from "react-router-dom";
 
 import { AuthContext } from "../context/AuthContext";
 
@@ -40,14 +41,16 @@ const ProfileInfo = (props) => {
 	return (
 		<StyledProfileInfo>
 			<div>
-				<img
-					src={
-						user.profilePicture
-							? user.profilePicture
-							: "https://thumbs.dreamstime.com/b/default-avatar-profile-icon-vector-social-media-user-portrait-176256935.jpg"
-					}
-					alt="Jeremiah Taylor"
-				/>
+				<Link to={`/profile/${user.username}`}>
+					<img
+						src={
+							user.profilePicture
+								? user.profilePicture
+								: "https://thumbs.dreamstime.com/b/default-avatar-profile-icon-vector-social-media-user-portrait-176256935.jpg"
+						}
+						alt="Jeremiah Taylor"
+					/>
+				</Link>
 				<div className="userInfo">
 					<p>{user.name}</p>
 					<p>@{user.username}</p>

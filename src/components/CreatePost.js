@@ -58,6 +58,9 @@ const StyledCreatePost = styled.div`
 					margin: 0 auto;
 					margin-bottom: 20px;
 				}
+				.giphyContainer {
+					margin: auto;
+				}
 
 				.lowerContainer {
 					width: 90%;
@@ -82,28 +85,6 @@ const StyledCreatePost = styled.div`
 					.search {
 						display: none;
 					}
-
-					/* .media {
-						display: flex;
-						flex-direction: row;
-						align-items: center;
-						margin: 0;
-						padding-left: 15px;
-						justify-content: flex-start;
-						font-size: 14px;
-						cursor: pointer;
-
-						span {
-							padding-right: 5px;
-							color: #5833c3;
-						}
-
-						.mediaIcon {
-							color: #5833c3;
-							margin-left: -30px;
-							margin-right: 30px;
-						}
-					} */
 
 					.post {
 						font-family: inherit;
@@ -153,7 +134,7 @@ const CreatePost = (props) => {
 		e.preventDefault();
 		const newPost = {
 			userId: user._id,
-			desc: desc.current.value,
+			desc: desc.current.value
 		};
 
 		if (giphy) {
@@ -190,21 +171,14 @@ const CreatePost = (props) => {
 									placeholder="What's new?"
 								></textarea>
 								<div className="separator"></div>
+								{giphy && (
+									<div className="giphyContainer">
+										<img className="showGiphy" src={giphy} alt="" />
+									</div>
+								)}
 								<div className="lowerContainer">
 									<input placeholder="Search Giphy's" onChange={handleChange} />
 									<button className="search">Search</button>
-									{/* <label htmlFor="file" className="media">
-										<span>Photo or Video</span>
-										<PermMediaOutlinedIcon className="mediaIcon" />
-										<input
-											onChange={handleFile}
-											style={{ display: "none" }}
-											type="file"
-											name="file"
-											id="file"
-											accept=".png, .jpeg, .jpg, .mp4"
-										/>
-									</label> */}
 									<button type="submit" className="post">
 										Post
 									</button>

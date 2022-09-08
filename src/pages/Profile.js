@@ -1,11 +1,14 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
 import axios from "axios";
 
 import LeftSidebar from "../components/LeftSidebar";
 import Timeline from "../components/Timeline";
 import RightSidebar from "../components/RightSidebar";
 
+import RemoveOutlinedIcon from "@mui/icons-material/RemoveOutlined";
+import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import styled from "styled-components";
 
 const StyledProfilePage = styled.div`
@@ -73,6 +76,12 @@ const StyledProfilePage = styled.div`
 					cursor: pointer;
 				}
 
+				.follow {
+					display: flex;
+					justify-content: center;
+					align-items: center;
+				}
+
 				.user {
 					padding-left: 20px;
 					height: 50px;
@@ -126,6 +135,32 @@ const StyledProfilePage = styled.div`
 const Profile = (props) => {
 	const [user, setUser] = useState({});
 	const username = useParams().username;
+	const { user: currentUser, dispatch } = useContext(AuthContext);
+	const [followed, setFollowed] = useState(
+		currentUser.following.includes(user?.id)
+	);
+
+	const handleFollow = async () => {
+		try {
+			if (followed) {
+				await axios.put(
+					`http://localhost:3001/api/users/${user._id}/unfollow`,
+					{
+						userId: currentUser._id
+					}
+				);
+				dispatch({ type: "UNFOLLOW", payload: user._id });
+			} else {
+				await axios.put(`http://localhost:3001/api/users/${user._id}/follow`, {
+					userId: currentUser._id
+				});
+				dispatch({ type: "FOLLOW", payload: user._id });
+			}
+		} catch (error) {
+			console.log(error);
+		}
+		setFollowed(!followed);
+	};
 
 	useEffect(() => {
 		const fetchUser = async () => {
@@ -164,6 +199,12 @@ const Profile = (props) => {
 						</div>
 						<div className="infoContainer">
 							<button>Edit Profile</button>
+							{user.username !== currentUser.username && (
+								<button onClick={handleFollow} className="follow">
+									{followed ? <RemoveOutlinedIcon /> : <AddOutlinedIcon />}
+									{followed ? "Unfollow" : "Follow"}
+								</button>
+							)}
 							<div className="user">
 								<h3>{user.name}</h3>
 								<p>@{user.username}</p>

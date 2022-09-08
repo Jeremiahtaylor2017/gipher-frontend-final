@@ -1,13 +1,17 @@
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 import ProfileInfo from "./ProfileInfo";
 
-import styled from "styled-components";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
 import ChatOutlinedIcon from "@mui/icons-material/ChatOutlined";
 import BookmarkBorderOutlinedIcon from "@mui/icons-material/BookmarkBorderOutlined";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
+import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
+import styled from "styled-components";
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
 
 const StyledSidebar = styled.div`
 	background-color: #f9f6ff;
@@ -60,6 +64,16 @@ const StyledSidebar = styled.div`
 `;
 
 const LeftSidebar = (props) => {
+	const { user } = useContext(AuthContext);
+
+	const handleDelete = async () => {
+		try {
+			await axios.delete(`http://localhost:3001/api/users/${user.username}`);
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
 	return (
 		<StyledSidebar>
 			<div>
@@ -99,6 +113,12 @@ const LeftSidebar = (props) => {
 							<div>
 								<SettingsOutlinedIcon />
 								Settings
+							</div>
+						</li>
+						<li>
+							<div onClick={handleDelete}>
+								<LogoutOutlinedIcon />
+								Delete Account
 							</div>
 						</li>
 					</ul>

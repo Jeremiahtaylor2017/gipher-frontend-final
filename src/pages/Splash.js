@@ -96,6 +96,8 @@ const Splash = (props) => {
 		);
 	};
 
+	window.localStorage.setItem("user", JSON.stringify(user));
+
 	return (
 		<StyledSplashPage>
 			<div>

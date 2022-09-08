@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
-import axios from "axios";
 import { AuthContext } from "../context/AuthContext";
+import axios from "axios";
 
 import CreatePost from "./CreatePost";
 import Post from "./Post";
@@ -41,7 +41,7 @@ const Timeline = ({ username }) => {
 	return (
 		<>
 			<StyledTimline>
-				<CreatePost />
+				{(!username || username === user.username) && <CreatePost />}
 				{posts.map((p) => (
 					<Post key={p._id} post={p} />
 				))}
